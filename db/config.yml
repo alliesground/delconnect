@@ -1,0 +1,15 @@
+development:
+  adapter: postgresql
+  database: delconnect_development
+  pool: 5
+  timeout: 5000
+  host: <%= ENV['POSTGRES_HOST'] %>
+  user: <%= ENV['POSTGRES_USER'] %>
+
+test: &test
+  adapter: postgresql
+  database: delconnect_test
+  pool: 5
+  timeout: 5000
+  host: <%= ENV['POSTGRES_HOST'] %>
+  user: <%= ENV['POSTGRES_USER'] %>

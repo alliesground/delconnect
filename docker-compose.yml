@@ -1,0 +1,34 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:12.1
+    environment:
+      POSTGRES_USER: delconnect
+    ports:
+      - '5432:5432'
+    volumes:
+      - delconnect-db:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      args:
+        - HOME
+        - USER
+        - UID
+    user: "${UID}:100"
+    tty: true
+    stdin_open: true
+    depends_on:
+      - db
+    environment:
+      POSTGRES_USER: delconnect
+      POSTGRES_HOST: db
+      RAILS_ENV: development
+    volumes:
+      - .:$HOME
+      - bundler_gems:/usr/local/bundle/
+
+volumes:
+  delconnect-db:
+  bundler_gems:
