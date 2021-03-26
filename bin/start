@@ -1,7 +1,47 @@
 #!usr/bin/env ruby
 
-puts 'Delegate Connect'
+puts 'Welcome to Delegate Connect'
+puts '---------------------------'
+puts ''
+
+prompt = <<~CMD
+  Please enter one of the following commands:
+
+  create event -e <event_name>
+  create speaker -s <speaker_name>
+  create talk -e <event_name> -t <talk_name> -st <talk_start_time> -et<talk_end_time> -s <speaker_name>
+  print talks -e <event_name>
+CMD
+
+puts prompt
 
 input = gets.chomp
+input_arr = input.split
 
-puts "Ola #{input}"
+cmd = input_arr[0..1].join('_').downcase
+
+puts cmd
+
+case cmd
+when "create_event"
+  puts 'creating event...'
+  event_name = input_arr[2..-1].join(' ')
+  
+  puts "Event #{event_name} created successfully"
+
+when "create_speaker"
+  puts 'create speaker...'
+  speaker_name = input_arr[2..-1].join(' ')
+
+  puts "Speaker #{speaker_name} created successfully"
+
+when "create_talk"
+  puts 'creating talk...'
+  # continue
+  puts "input #{input}"
+  event_name = /-e(.*?)-t/.match(input)[1].delete("'").strip
+  puts "Talk for #{event_name} created"
+
+else
+  puts 'doing other task...'
+end
