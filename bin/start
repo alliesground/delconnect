@@ -1,5 +1,7 @@
 #!usr/bin/env ruby
 
+require_relative '../config/environment.rb'
+
 puts 'Welcome to Delegate Connect'
 puts '---------------------------'
 puts ''
@@ -24,10 +26,7 @@ puts cmd
 
 case cmd
 when "create_event"
-  puts 'creating event...'
-  event_name = input_arr[2..-1].join(' ')
-  
-  puts "Event #{event_name} created successfully"
+  puts "enter event name"
 
 when "create_speaker"
   puts 'create speaker...'
