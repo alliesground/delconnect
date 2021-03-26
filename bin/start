@@ -37,7 +37,6 @@ when "create_speaker"
 
 when "create_talk"
   puts 'creating talk...'
-  # continue
   puts "input #{input}"
   event_name = /-e(.*?)-t/.match(input)[1].delete("'").strip
   puts "Talk for #{event_name} created"
