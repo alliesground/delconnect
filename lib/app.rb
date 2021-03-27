@@ -2,11 +2,16 @@ class App
   def start
     loop do
       puts prompt
-      @input = gets.chomp
+      input = gets.chomp
 
-      break if @input == 'exit'
+      break if input == 'exit'
+
+      parsed_input = InputParser.new(input).parse
+      puts parsed_input
     end
   end
+
+  private
 
   def prompt
     <<~PROMPT
