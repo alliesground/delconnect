@@ -27,18 +27,6 @@ class InputParser
     @current_cmd = input.match(CMD_FORMAT)&.named_captures&.dig('cmd')
   end
 
-  def valid_cmd?
-    return true if current_cmd && COMMANDS.include?(current_cmd)
-
-    puts "\n INVALID COMMAND"
-    false
-  end
-
-  def valid_args?
-    return true if input.match?(ARG_FORMATS[current_cmd])
-    puts "\n INVALID ARGUMENTS"
-    return false
-  end
 
   def parse
     return unless valid_cmd?
@@ -52,12 +40,16 @@ class InputParser
 
   private
 
-  def valid?(format)
-    unless input.match?(format)
-      puts "\n **INVALID ARGUMENTS**"
-      return false
-    end
+  def valid_cmd?
+    return true if current_cmd && COMMANDS.include?(current_cmd)
 
-    true
+    puts "\n INVALID COMMAND"
+    false
+  end
+
+  def valid_args?
+    return true if input.match?(ARG_FORMATS[current_cmd])
+    puts "\n INVALID ARGUMENTS"
+    return false
   end
 end
