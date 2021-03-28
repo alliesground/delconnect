@@ -7,7 +7,16 @@ class App
       break if input == 'exit'
 
       parsed_input = InputParser.new(input).parse
-      puts parsed_input
+
+      begin
+        case parsed_input[:cmd]
+        when "CREATE EVENT"
+          Event.create!(name: parsed_input[:params][:event_name])
+          puts 'Event created successfully'
+        end
+      rescue ActiveRecord::RecordInvalid => e
+        puts e
+      end
     end
   end
 
