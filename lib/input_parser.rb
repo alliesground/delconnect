@@ -1,55 +1,53 @@
 class InputParser
-  attr_reader :input
+  attr_reader :input, :current_cmd
 
   CMD_FORMAT = /^(?<cmd>[A-Z]+ [A-Z]+)/
+
   EVENT_FORMAT = /(?<event_name>[a-zA-Z]+(_[a-zA-Z]+)+)$/
   SPEAKER_FORMAT = /(?<speaker_name>[a-zA-Z]+)$/
   TIME_FORMAT = /(?<start_time>\d+:\d+[am|pm]{2}) (?<end_time>\d+:\d+[am|pm]{2})/
   TALK_FORMAT = Regexp.new("#{EVENT_FORMAT.source.delete_suffix('$')} #{/(?<talk_name>'.+')/} #{TIME_FORMAT} #{SPEAKER_FORMAT}")
 
+  COMMANDS = [
+    "CREATE EVENT",
+    "CREATE SPEAKER",
+    "CREATE TALK",
+    "PRINT TALK",
+  ]
+
+  ARG_FORMATS = {
+    "CREATE EVENT" => EVENT_FORMAT,
+    "CREATE SPEAKER" => SPEAKER_FORMAT,
+    "CREATE TALK" => TALK_FORMAT
+  }
+
   def initialize(input)
     @input = input
+
+    @current_cmd = input.match(CMD_FORMAT)&.named_captures&.dig('cmd')
   end
 
+  def valid_cmd?
+    return true if current_cmd && COMMANDS.include?(current_cmd)
+
+    puts "\n INVALID COMMAND"
+    false
+  end
+
+  def valid_args?
+    return true if input.match?(ARG_FORMATS[current_cmd])
+    puts "\n INVALID ARGUMENTS"
+    return false
+  end
 
   def parse
-    cmd = input.match(CMD_FORMAT)&.named_captures&.dig('cmd')
+    return unless valid_cmd?
+    return unless valid_args?
 
-    case cmd
-    when 'CREATE EVENT'
-      return unless valid?(EVENT_FORMAT)
-
-      {
-        cmd: cmd,
-        params: {event_name: input.match(EVENT_FORMAT)[:event_name]}
-      }
-
-    when 'CREATE SPEAKER'
-      return unless valid?(SPEAKER_FORMAT)
-
-      {
-        cmd: cmd,
-        params: {speaker_name: input.match(SPEAKER_FORMAT)[:speaker_name]}
-      }
-
-    when 'CREATE TALK'
-      return unless valid?(TALK_FORMAT)
-
-      input.match(TALK_FORMAT) do |m|
-        {
-          cmd: cmd,
-          params: {
-            event_name: m[:event_name],
-            talk_name: m[:talk_name],
-            start_time: m[:start_time],
-            end_time: m[:end_time],
-            speaker_name: m[:speaker_name]
-          }
-        } 
-      end
-    else
-      puts "\n **INVALID COMMAND**"
-    end
+    {
+      cmd: current_cmd,
+      params: input.match(ARG_FORMATS[current_cmd]).named_captures.transform_keys(&:to_sym)
+    }
   end
 
   private

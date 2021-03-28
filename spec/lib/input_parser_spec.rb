@@ -13,11 +13,11 @@ RSpec.describe InputParser do
     end
 
     context 'with invalid command' do
-      it 'returns nil' do
+      it 'returns false' do
         input = "CREATE EVENT an invalid event"
         parsed_input = InputParser.new(input).parse
 
-        expect(parsed_input).to eq nil
+        expect(parsed_input).to eq false
       end
     end
   end
