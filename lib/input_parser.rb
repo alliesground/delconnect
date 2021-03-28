@@ -13,7 +13,7 @@ class InputParser
 
 
   def parse
-    cmd = input.match(CMD_FORMAT).try(:[], :cmd)
+    cmd = input.match(CMD_FORMAT)&.named_captures&.dig('cmd')
 
     case cmd
     when 'CREATE EVENT'
