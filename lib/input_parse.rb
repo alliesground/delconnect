@@ -13,9 +13,7 @@ class InputParser
 
 
   def parse
-    return unless valid?(CMD_FORMAT)
-
-    cmd = input.match(CMD_FORMAT)[:cmd]
+    cmd = input.match(CMD_FORMAT).try(:[], :cmd)
 
     case cmd
     when 'CREATE EVENT'
@@ -49,6 +47,8 @@ class InputParser
           }
         } 
       end
+    else
+      puts "\n **INVALID COMMAND**"
     end
   end
 
@@ -56,7 +56,7 @@ class InputParser
 
   def valid?(format)
     unless input.match?(format)
-      puts "INVALID ARGUMENTS"
+      puts "\n **INVALID ARGUMENTS**"
       return false
     end
 
