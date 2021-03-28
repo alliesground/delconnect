@@ -5,7 +5,7 @@ class InputParser
   EVENT_FORMAT = /(?<event_name>[a-zA-Z]+_[a-zA-Z]+)$/
   SPEAKER_FORMAT = /(?<speaker_name>[a-zA-Z]+)$/
   TIME_FORMAT = /(?<start_time>\d+:\d+[am|pm]{2}) (?<end_time>\d+:\d+[am|pm]{2})/
-  TALK_FORMAT = Regexp.new("#{EVENT_FORMAT} #{/(?<talk_name>'.+')/} #{TIME_FORMAT} #{SPEAKER_FORMAT}")
+  TALK_FORMAT = Regexp.new("#{EVENT_FORMAT.source.delete_suffix('$')} #{/(?<talk_name>'.+')/} #{TIME_FORMAT} #{SPEAKER_FORMAT}")
 
   def initialize(input)
     @input = input
