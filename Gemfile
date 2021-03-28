@@ -10,3 +10,4 @@ gem "rake"
 gem 'activerecord', '~> 5.0', '>= 5.0.0.1'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'require_all'
+gem 'rspec', '~> 3.10'
