@@ -9,7 +9,7 @@ class App
       parsed_input = InputParser.new(input).parse
 
       begin
-        case parsed_input[:cmd]
+        case parsed_input&.dig(:cmd)
         when "CREATE EVENT"
           Event.create!(name: parsed_input[:params][:event_name])
           puts 'Event created successfully'
