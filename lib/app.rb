@@ -13,6 +13,11 @@ class App
         when "CREATE EVENT"
           Event.create!(name: parsed_input[:params][:event_name])
           puts 'Event created successfully'
+
+        when "CREATE SPEAKER"
+          Speaker.create!(name: parsed_input[:params][:speaker_name])
+
+          puts 'Speaker created successfully'
         end
       rescue ActiveRecord::RecordInvalid => e
         puts e
