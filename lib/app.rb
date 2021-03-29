@@ -30,6 +30,15 @@ class App
           )
 
           puts 'Talk created successfully'
+
+        when "PRINT TALKS"
+          event.talks.each do |talk|
+            puts <<~TALKS
+              #{talk.start_time.strftime("%I:%M%p")} - #{talk.end_time.strftime("%I:%M%p")}
+              #{talk.name} presented by #{talk.speaker.name}
+            TALKS
+          end
+          event.talks
         end
       rescue ActiveRecord::ActiveRecordError => e
         puts e

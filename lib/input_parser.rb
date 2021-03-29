@@ -12,13 +12,14 @@ class InputParser
     "CREATE EVENT",
     "CREATE SPEAKER",
     "CREATE TALK",
-    "PRINT TALK",
+    "PRINT TALKS",
   ]
 
   ARG_FORMATS = {
     "CREATE EVENT" => EVENT_FORMAT,
     "CREATE SPEAKER" => SPEAKER_FORMAT,
-    "CREATE TALK" => TALK_FORMAT
+    "CREATE TALK" => TALK_FORMAT,
+    "PRINT TALKS" => EVENT_FORMAT
   }
 
   def initialize(input)
