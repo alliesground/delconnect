@@ -38,7 +38,6 @@ class App
               #{talk.name} presented by #{talk.speaker.name}
             TALKS
           end
-          event.talks
         end
       rescue ActiveRecord::ActiveRecordError => e
         puts e
