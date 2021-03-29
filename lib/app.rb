@@ -1,4 +1,5 @@
 class App
+  attr_reader :parsed_input
   def start
     loop do
       puts prompt
@@ -6,7 +7,7 @@ class App
 
       break if input == 'exit'
 
-      parsed_input = InputParser.new(input).parse
+      @parsed_input = InputParser.new(input).parse
 
       begin
         case parsed_input&.dig(:cmd)
@@ -16,16 +17,37 @@ class App
 
         when "CREATE SPEAKER"
           Speaker.create!(name: parsed_input[:params][:speaker_name])
-
           puts 'Speaker created successfully'
+
+        when "CREATE TALK"
+          Talk.create!(
+            event_id: event.id,
+            speaker_id: speaker.id,
+            name: parsed_input[:params][:talk_name],
+            start_time: parse_time(parsed_input[:params][:start_time]),
+            end_time: parse_time(parsed_input[:params][:end_time])
+          )
+          puts 'Talk created successfully'
         end
-      rescue ActiveRecord::RecordInvalid => e
+      rescue ActiveRecord::ActiveRecordError => e
         puts e
       end
     end
   end
 
   private
+
+  def event
+    Event.find_by!(name: parsed_input[:params][:event_name])
+  end
+
+  def speaker
+    Speaker.find_by!(name: parsed_input[:params][:speaker_name])
+  end
+
+  def parse_time(time_str)
+    time_str.to_time
+  end
 
   def prompt
     <<~PROMPT
