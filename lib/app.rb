@@ -1,5 +1,6 @@
 class App
   attr_reader :parsed_input
+
   def start
     loop do
       puts prompt
@@ -20,13 +21,14 @@ class App
           puts 'Speaker created successfully'
 
         when "CREATE TALK"
-          Talk.create!(
+          talk = Talk.create!(
             event_id: event.id,
             speaker_id: speaker.id,
             name: parsed_input[:params][:talk_name],
-            start_time: parse_time(parsed_input[:params][:start_time]),
-            end_time: parse_time(parsed_input[:params][:end_time])
+            raw_start_time: parsed_input[:params][:start_time],
+            raw_end_time: parsed_input[:params][:end_time]
           )
+
           puts 'Talk created successfully'
         end
       rescue ActiveRecord::ActiveRecordError => e
@@ -43,10 +45,6 @@ class App
 
   def speaker
     Speaker.find_by!(name: parsed_input[:params][:speaker_name])
-  end
-
-  def parse_time(time_str)
-    time_str.to_time
   end
 
   def prompt
