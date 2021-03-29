@@ -51,10 +51,10 @@ class App
     <<~PROMPT
       Please enter one of the following commands:
 
-      create event -e <event_name>
-      create speaker -s <speaker_name>
-      create talk -e <event_name> -t <talk_name> -st <talk_start_time> -et<talk_end_time> -s <speaker_name>
-      print talks -e <event_name>
+      CREATE EVENT event_name
+      CREATE SPEAKER speaker
+      CREATE TALK event_name 'Talk name' 00:00am 00:00pm speaker
+      PRINT TALKS event_name
       exit - to end the programme
     PROMPT
   end
